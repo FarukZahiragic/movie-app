@@ -1,2 +1,2 @@
 # movie-app
-An Android app that displays movie information
+An Android app that displays movie information. It contains many features.
