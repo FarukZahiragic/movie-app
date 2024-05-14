@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="favorite">Omiljeni filmovi</string>
+    <string name="recent">Nadolazeći filmovi</string>
+    <string name="search">Traži</string>
+</resources>

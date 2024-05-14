@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@id/favoriteMoviesFragment"
+        android:icon="@android:drawable/btn_star_big_off"
+        android:title="Favorites"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@id/recentMoviesFragment"
+        android:icon="@android:drawable/ic_popup_reminder"
+        android:title="Recent" />
+
+    <item
+        android:id="@id/searchFragment"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Search" />
+</menu>
