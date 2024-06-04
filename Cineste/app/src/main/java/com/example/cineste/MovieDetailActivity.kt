@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -28,6 +30,9 @@ class MovieDetailActivity : AppCompatActivity() {
     private lateinit var website : TextView
     private lateinit var poster : ImageView
     private lateinit var share : FloatingActionButton
+    private lateinit var addFavorite: Button
+
+    val scope = CoroutineScope(Job() + Dispatchers.Main)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_detail)
@@ -38,7 +43,8 @@ class MovieDetailActivity : AppCompatActivity() {
         poster = findViewById(R.id.movie_poster)
         website = findViewById(R.id.movie_website)
         share = findViewById(R.id.movie_share_button)
-        movie = Movie(0,"Test","Test","Test","Test","Test", "", "")
+        addFavorite = findViewById(R.id.favorite)
+        movie = Movie(0,"Test","Test","Test","Test", "", "")
         val extras = intent.extras
         if (extras != null) {
             if (extras.containsKey("movie_id")) {
@@ -69,22 +75,22 @@ class MovieDetailActivity : AppCompatActivity() {
     private fun populateDetails() {
         title.text=movie.title
         releaseDate.text=movie.releaseDate
-        genre.text=movie.genre
+        //genre.text=movie.genre
         website.text=movie.homepage
         overview.text=movie.overview
         val context: Context = poster.context
-        var id: Int = context.resources
+        /*var id: Int = context.resources
             .getIdentifier(movie.genre, "drawable", context.packageName)
         if (id==0) id=context.resources
             .getIdentifier("picture1", "drawable", context.packageName)
-        poster.setImageResource(id)
+        poster.setImageResource(id)*/
     }
     private fun getMovieByTitle(name:String):Movie{
         val movies: ArrayList<Movie> = arrayListOf()
         movies.addAll(getRecentMovies())
         movies.addAll(getFavoriteMovies())
         val movie= movies.find { movie -> name == movie.title }
-        return movie?:Movie(0,"Test","Test","Test","Test","Test", "", "")
+        return movie?:Movie(0,"Test","Test","Test","Test", "", "")
     }
 
     private fun getMovieById(id: Long){
@@ -102,8 +108,6 @@ class MovieDetailActivity : AppCompatActivity() {
             }
         }
     }
-
-
 
     private fun showWebsite(){
         val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(movie.homepage))
@@ -138,5 +142,24 @@ class MovieDetailActivity : AppCompatActivity() {
         }
     }
 
+    fun writeDB(context: Context, movie:Movie){
+        scope.launch{
+            val result = MovieRepository.writeFavorite(context,movie)
+            when (result) {
+                is String -> onSuccess1(result)
+                else-> onError()
+            }
+        }
+    }
+
+    fun onSuccess1(message:String){
+        val toast = Toast.makeText(applicationContext, "Saved", Toast.LENGTH_SHORT)
+        toast.show()
+        addFavorite.visibility= View.GONE
+    }
+    fun onError() {
+        val toast = Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT)
+        toast.show()
+    }
 
 }

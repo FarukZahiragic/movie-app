@@ -23,12 +23,12 @@ class MovieListAdapter(
     override fun getItemCount(): Int = movies.size
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.movieTitle.text = movies[position].title
-        val genreMatch: String? = movies[position].genre
+        //val genreMatch: String? = movies[position].genre
         val context: Context = holder.movieImage.context
         var id: Int = 0;
-        if (genreMatch!==null)
+        /*if (genreMatch!==null)
             id = context.resources
-                .getIdentifier(genreMatch, "drawable", context.packageName)
+                .getIdentifier(genreMatch, "drawable", context.packageName)*/
         Glide.with(context)
             .load(posterPath + movies[position].posterPath)
             .centerCrop()

@@ -30,7 +30,7 @@ class LatestMovieService : Service() {
     private var wakeLock: PowerManager.WakeLock? = null
     private var isServiceStarted = false
     private val tmdb_api_key : String = BuildConfig.TMDB_API_KEY
-    private var movie = Movie(1,"test","test","test","test"," ","test","test")
+    private var movie = Movie(1,"test","test","test","test"," ","test",)
 
     override fun onBind(intent: Intent): IBinder? {
         return null

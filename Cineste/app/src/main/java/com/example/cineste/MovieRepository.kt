@@ -1,5 +1,6 @@
 package com.example.cineste
 
+import android.content.Context
 import android.provider.ContactsContract.CommonDataKinds.Website.URL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -33,7 +34,7 @@ object MovieRepository {
                         val posterPath = movie.getString("poster_path")
                         val overview = movie.getString("overview")
                         val releaseDate = movie.getString("release_date")
-                        movies.add(Movie(id.toLong(), title, overview, releaseDate, null, null, posterPath, ""))
+                        movies.add(Movie(id.toLong(), title, overview, releaseDate, null, posterPath, null))
                         if (i == 5) break
                     }
                 }
@@ -46,7 +47,6 @@ object MovieRepository {
             } catch (e: JSONException) {
                 return@withContext Result.Error(Exception("Cannot parse JSON"))
             }
-
         }
     }
 
@@ -70,7 +70,7 @@ object MovieRepository {
                         val posterPath = movie.getString("poster_path")
                         val overview = movie.getString("overview")
                         val releaseDate = movie.getString("release_date")
-                        movies.add(Movie(id.toLong(), title, overview, releaseDate, null, null, posterPath, ""))
+                        movies.add(Movie(id.toLong(), title, overview, releaseDate, null, posterPath, null))
                         if (i == 5) break
                     }
                 }
@@ -83,7 +83,36 @@ object MovieRepository {
             } catch (e: JSONException) {
                 return@withContext Result.Error(Exception("Cannot parse JSON"))
             }
-
         }
     }
+
+    suspend fun getUpcomingMovies(
+    ) : GetMoviesResponse?{
+        return withContext(Dispatchers.IO) {
+            var response = ApiAdapter.retrofit.getUpcomingMovies()
+            val responseBody = response.body()
+            return@withContext responseBody
+        }
+    }
+
+    suspend fun getFavoriteMovies(context: Context) : List<Movie> {
+        return withContext(Dispatchers.IO) {
+            var db = AppDatabase.getInstance(context)
+            var movies = db!!.movieDao().getAll()
+            return@withContext movies
+        }
+    }
+    suspend fun writeFavorite(context: Context,movie:Movie) : String?{
+        return withContext(Dispatchers.IO) {
+            try{
+                var db = AppDatabase.getInstance(context)
+                db!!.movieDao().insertAll(movie)
+                return@withContext "success"
+            }
+            catch(error:Exception){
+                return@withContext null
+            }
+        }
+    }
+
 }

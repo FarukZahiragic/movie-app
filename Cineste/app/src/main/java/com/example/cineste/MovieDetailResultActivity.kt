@@ -12,11 +12,11 @@ import com.bumptech.glide.Glide
 
 class MovieDetailResultActivity : AppCompatActivity() {
 
-    private  var movie= Movie(0, "Test", "Test", "Test", "Test", "Test", "Test", "Test")
+    private  var movie= Movie(0, "Test", "Test", "Test", "Test", "Test", "Test")
     private lateinit var title : TextView
     private lateinit var overview : TextView
     private lateinit var releaseDate : TextView
-    private lateinit var genre : TextView
+    //private lateinit var genre : TextView
     private lateinit var website : TextView
     private lateinit var poster : ImageView
     private lateinit var backdrop : ImageView
@@ -28,10 +28,10 @@ class MovieDetailResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_detail_result)
 
-        title = findViewById(R.id.movie_title)
+        /*title = findViewById(R.id.movie_title)
         overview = findViewById(R.id.movie_overview)
         releaseDate = findViewById(R.id.movie_release_date)
-        genre = findViewById(R.id.movie_genre)
+        //genre = findViewById(R.id.movie_genre)
         poster = findViewById(R.id.movie_poster)
         website = findViewById(R.id.movie_website)
         backdrop = findViewById(R.id.movie_backdrop)
@@ -47,21 +47,21 @@ class MovieDetailResultActivity : AppCompatActivity() {
                 movie = intent?.getParcelableExtra<Movie>("movie")!!
                 populateDetails()
             }
-        }
+        }*/
 
     }
 
     private fun populateDetails() {
         title.text=movie.title
         releaseDate.text=movie.releaseDate
-        genre.text=movie.genre
+        //genre.text=movie.genre
         website.text=movie.homepage
         overview.text=movie.overview
         val context: Context = poster.getContext()
         var id = 0;
-        if (movie.genre!==null)
+        /*if (movie.genre!==null)
             id = context.getResources()
-                .getIdentifier(movie.genre, "drawable", context.getPackageName())
+                .getIdentifier(movie.genre, "drawable", context.getPackageName())*/
         if (id===0) id=context.getResources()
             .getIdentifier("picture1", "drawable", context.getPackageName())
         Glide.with(context)

@@ -2,23 +2,26 @@ package com.example.cineste
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
+@Entity
 data class Movie (
-    var id: Long,
-    var title: String,
-    var overview: String,
-    var releaseDate: String,
-    var homepage: String?,
-    var genre: String?,
-    var posterPath: String,
-    var backdropPath: String
+    @PrimaryKey @SerializedName("id") var id: Long,
+    @ColumnInfo(name = "title") @SerializedName("original_title")  var title: String,
+    @ColumnInfo(name = "overview") @SerializedName("overview")  var overview: String,
+    @ColumnInfo(name = "release_date") @SerializedName("release_date")   var releaseDate: String,
+    @ColumnInfo(name = "homepage") @SerializedName("homepage")   var homepage: String?,
+    @ColumnInfo(name = "poster_path") @SerializedName("poster_path") var posterPath: String?,
+    @ColumnInfo(name = "backdrop_path") @SerializedName("backdrop_path")  var backdropPath: String?
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readString(),
         parcel.readString(),
         parcel.readString()!!,
         parcel.readString()!!) {
@@ -29,7 +32,6 @@ data class Movie (
         parcel.writeString(overview)
         parcel.writeString(releaseDate)
         parcel.writeString(homepage)
-        parcel.writeString(genre)
         parcel.writeString(posterPath)
         parcel.writeString(backdropPath)
     }
